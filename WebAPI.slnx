@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ConsumerMVC/ConsumerMVC.csproj" Id="5e26715b-dfe6-4cd8-b9b6-737ccdea09d9" />
+  <Project Path="WebAPI/WebAPI.csproj" />
+</Solution>
