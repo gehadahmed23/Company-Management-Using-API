@@ -32,7 +32,9 @@ namespace WebAPI.Controllers
                 var details = new DeptDetails
                 {
                     Id = dept.Id,
-                    DeptName = dept.Name,
+                    Name = dept.Name,
+                    Code = dept.Code,
+                    DateOfCreation = dept.DateOfCreation,
                     EmployeeNames = dept.Employees.Select(e => e.Name).ToList()
                 };
                 deptDetailsDTO.Add(details);
@@ -40,7 +42,7 @@ namespace WebAPI.Controllers
             return deptDetailsDTO;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<DeptDetails>> GetDepartment(int id)
         {
             var department = await _context.Departments.Include(e => e.Employees).FirstOrDefaultAsync(d => d.Id == id);
@@ -53,7 +55,9 @@ namespace WebAPI.Controllers
             var deptDetailsDTO = new DeptDetails();
 
             deptDetailsDTO.Id = department.Id;
-            deptDetailsDTO.DeptName = department.Name;
+            deptDetailsDTO.Name = department.Name;
+            deptDetailsDTO.Code = department.Code;
+            deptDetailsDTO.DateOfCreation = department.DateOfCreation;
             foreach (var emp in department.Employees) { 
                 deptDetailsDTO.EmployeeNames.Add(emp.Name);
             }
@@ -62,8 +66,32 @@ namespace WebAPI.Controllers
             return deptDetailsDTO;
         }
 
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Employee>> GetDepartmentByName(string name)
+        {
+            var departments = await _context.Departments.Where(D => D.Name.ToLower().Contains(name.ToLower())).Include(d => d.Employees).ToListAsync();
+            if (departments == null || departments.Count == 0)
+            {
+                return NotFound();
+            }
+            var deptDTO = new List<DeptDetails>();
+            foreach (var dept in departments)
+            {
+                var details = new DeptDetails
+                {
+                    Id = dept.Id,
+                    Name = dept.Name,
+                    Code = dept.Code,
+                    DateOfCreation = dept.DateOfCreation,
+                    EmployeeNames = dept.Employees.Select(e => e.Name).ToList()
+                };
+                deptDTO.Add(details);
+            }
+            return Ok(deptDTO);
+        }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(int id, Department department)
+        public async Task<IActionResult> PutDepartment(int id, Dept_PostPut department)
         {
             if (id != department.Id)
             {
@@ -80,14 +108,16 @@ namespace WebAPI.Controllers
             var deptPut = new Dept_PostPut()
             {
                 Id = department.Id,
-                DeptName = department.Name,
-                Desc = department.Desc
+                Name = department.Name,
+                Code = department.Code,
+                DateOfCreation = department.DateOfCreation
             };
 
             try
             {
                 existingDepartment.Name = department.Name;
-                existingDepartment.Desc = department.Desc;
+                existingDepartment.Code = department.Code;
+                existingDepartment.DateOfCreation = department.DateOfCreation;
                 await _context.SaveChangesAsync();
             }
             catch (Exception err)
@@ -98,13 +128,16 @@ namespace WebAPI.Controllers
             return Ok(deptPut);
         }
 
+
+
         [HttpPost]
         public async Task<ActionResult<Department>> PostDepartment(Dept_PostPut department)
         {
             var dept = new Department
             {
-                Name = department.DeptName,
-                Desc = department.Desc
+                Name = department.Name,
+                Code = department.Code,
+                DateOfCreation = department.DateOfCreation
             };
             _context.Departments.Add(dept);
             await _context.SaveChangesAsync();

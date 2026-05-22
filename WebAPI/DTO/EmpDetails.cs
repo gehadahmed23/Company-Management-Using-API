@@ -18,6 +18,8 @@ namespace WebAPI.DTO
         public DateTime HireDate { get; set; }
         [ForeignKey("department")]
         public string DeptName { get; set; } = string.Empty;
+        public int? DepartmentId { get; set; }
+        public string? ImageName { get; set; }
 
     }
 }
