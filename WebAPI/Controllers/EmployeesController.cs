@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class EmployeesController : ControllerBase
     {
         private readonly WebAPIdbContext _context;
@@ -39,6 +41,8 @@ namespace WebAPI.Controllers
                     Salary = emp.Salary,
                     Email = emp.Email,
                     PhoneNumber = emp.PhoneNumber,
+                    ImageName = emp.ImageName,
+                    DepartmentId = emp.DeptId
 
                 };
                 empDTO.Add(details);
@@ -65,6 +69,8 @@ namespace WebAPI.Controllers
                 Salary = emp.Salary,
                 Email = emp.Email,
                 PhoneNumber = emp.PhoneNumber,
+                ImageName = emp.ImageName,
+                DepartmentId = emp.DeptId
             };
             return Ok(empDTO);
         }
@@ -89,6 +95,8 @@ namespace WebAPI.Controllers
                     Salary = emp.Salary,
                     Email = emp.Email,
                     PhoneNumber = emp.PhoneNumber,
+                    ImageName = emp.ImageName,
+                    DepartmentId = emp.DeptId
 
                 };
                 empDTO.Add(details);
@@ -109,7 +117,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutEmployee(int id, Emp_PutPost employee)
         {
             if (id != employee.Id)
             {
@@ -135,13 +144,12 @@ namespace WebAPI.Controllers
             {
                 employeeDb.Name = employee.Name;
                 employeeDb.Salary = employee.Salary;
-                employeeDb.Address = employee.Address;
                 employeeDb.Email = employee.Email;
                 employeeDb.PhoneNumber = employee.PhoneNumber;
-                employeeDb.Age = employee.Age;
                 employeeDb.IsActive = employee.IsActive;
                 employeeDb.HireDate = employee.HireDate;
                 employeeDb.ImageName = employee.ImageName;
+                employeeDb.DeptId = employee.DepartmentId;
 
                 _context.Employees.Update(employeeDb);
                 await _context.SaveChangesAsync();
@@ -151,10 +159,11 @@ namespace WebAPI.Controllers
                Console.WriteLine(err.ToString());
             }
 
-            return Ok(empDto);
+            return Ok(employeeDb);
         }
 
         [HttpPost]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<Employee>> PostEmployee(Emp_PutPost empDTO)
         {
             var employee = new Employee
@@ -167,6 +176,7 @@ namespace WebAPI.Controllers
                 Salary = empDTO.Salary,
                 Email = empDTO.Email,
                 PhoneNumber = empDTO.PhoneNumber,
+                ImageName = empDTO.ImageName,
 
             };
             _context.Employees.Add(employee);

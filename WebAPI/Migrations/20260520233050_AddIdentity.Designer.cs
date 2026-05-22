@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Context;
 
@@ -11,9 +12,11 @@ using WebAPI.Context;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(WebAPIdbContext))]
-    partial class WebAPIdbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520233050_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,20 +50,6 @@ namespace WebAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "9a7b3c1d-1111-2222-3333-abcdef123456",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "8b6a2c3d-4444-5555-6666-abcdef654321",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -148,13 +137,6 @@ namespace WebAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "7c5b1a2d-7777-8888-9999-abcdefabcdef",
-                            RoleId = "9a7b3c1d-1111-2222-3333-abcdef123456"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -246,26 +228,6 @@ namespace WebAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "7c5b1a2d-7777-8888-9999-abcdefabcdef",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "89f5f11b-1d16-47a5-b780-1f5f6c32b98e",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            IsAgree = true,
-                            LockoutEnabled = false,
-                            Name = "Gehad Admin",
-                            NormalizedEmail = "ADMIN@gmail.COM",
-                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHu2JTrAYJS4at2RBkDq3oW5j0e34YVJuO0ZGe559SVPCT4SVp3VVT5KYgIYfZVN8w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "36b8763b-161a-4731-ae03-c68f598bd4f4",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("WebAPI.Models.Department", b =>
