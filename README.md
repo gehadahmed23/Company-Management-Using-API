@@ -2,6 +2,13 @@
 
 A comprehensive enterprise-level management solution designed using **ASP.NET Core Web API** and consumed via an **ASP.NET Core MVC Application**. This project demonstrates full CRUD operations, secure authentication using JWT, and modern architectural patterns like DTOs.
 
+## 🔗 Related Repositories
+
+| Component | Description | Link |
+|---|---|---|
+| 🔌 **Web API** | ASP.NET Core Web API backend (this repo) | [Company-Management-Using-API](https://github.com/gehadahmed23/Company-Management-Using-API) |
+| 🖥️ **MVC Consumer** | ASP.NET Core MVC client consuming the API | [Company-Management-Client](https://github.com/gehadahmed23/Company-Management-Client) |
+
 ---
 
 ## Applied Architecture & Key Topics
@@ -21,14 +28,13 @@ Secured backend resources against unauthorized access:
 * **Strict Token Validation:** Wired up JWT Bearer Authentication inside the `Program.cs` class to validate issuer, audience, signing keys, and token lifetime on every restricted request.
 
 ### 3. MVC Consumer Application
-A fully detached front-end consumer built using ASP.NET Core MVC:
+A fully detached front-end consumer built using ASP.NET Core MVC (see the [Company-Management-Client](https://github.com/gehadahmed23/Company-Management-Client) repo):
 * **HttpClient Integration:** Consumes the secure Web API endpoints asynchronously.
 * **Client-Side CRUD:** Implemented fully responsive Views and Controllers to handle Management actions (Create, Read, Update, Delete) smoothly based on API responses.
 
 ---
 
 ## Tech Stack & Tools Used
-
 * **Backend Framework:** .NET Core (ASP.NET Core Web API)
 * **Frontend Consumer:** ASP.NET Core MVC
 * **Database & ORM:** Entity Framework Core & MS SQL Server
@@ -53,3 +59,6 @@ Company-Management-Using-API/
     ├── Controllers/           # Controllers consuming API via HttpClient
     ├── Models/                # ViewModels mapped to API DTOs
     └── Views/                 # Razor Views for Management Interface
+```
+
+> 💡 **Note:** The MVC Consumer is also maintained as a standalone repository here: [Company-Management-Client](https://github.com/gehadahmed23/Company-Management-Client).
